@@ -1,0 +1,184 @@
+﻿@page "/stockPurches"
+@using Resturent.Models;
+@inject IJSRuntime jsruntime
+@inject StockPurchesService objStockPurchesService
+@inject NavigationManager NavigationManager
+@if (objStock == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <MudTable Items="@objStock" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<StockPurch, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Stock Purches</MudText>
+            <a href="/addStocks">
+                <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
+            </a>
+            <MudToolBarSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+
+
+        </ToolBarContent>
+        <HeaderContent>
+
+
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.SupplierId)"><strong>Supplier Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.ItemName)"><strong>Item Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.Qty)"><strong>Qty</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.Unit)"><strong>Unit</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.PaymentType)"><strong>Payment Status</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<StockPurch, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><strong>Actions</strong></MudTh>
+
+
+
+
+        </HeaderContent>
+
+        <RowTemplate>
+
+
+            <MudTd DataLabel="Supplier Name">@context.SupplierId</MudTd>
+            <MudTd DataLabel="Item Name">@context.ItemName</MudTd>
+            <MudTd DataLabel="Qty">@context.Qty</MudTd>
+            <MudTd DataLabel="Unit">@context.Unit</MudTd>
+            <MudTd DataLabel="Payment Status">@(context.PaymentType == true ? "Paid" : "Unpaid")</MudTd>
+            <MudTd DataLabel="Entry Date">@context.EDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Modify Date">@context.MDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Action">
+
+
+
+
+                <a href="/editStocks/@context.PurchesItemId">
+                    <MudFab Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+                </a>
+
+                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.PurchesItemId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+
+
+
+            </MudTd>
+
+        </RowTemplate>
+
+
+
+
+        <PagerContent>
+            <MudTablePager />
+
+        </PagerContent>
+
+
+    </MudTable>
+
+    <MudToolBar>
+        <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+        <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+        <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+        <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+        <MudToolBarSpacer />
+        <div style="min-width:200px;">
+
+
+
+            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.ItemName).Select(x => x.ItemName)))</MudText>
+
+        </div>
+
+
+
+    </MudToolBar>
+
+    @*<MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Primary" Size="Size.Small">Save to excel</MudButton>*@
+
+
+
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.PurchesItemId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+
+
+
+
+
+
+
+}
+
+
+@code {
+
+
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<StockPurch> objStock;
+
+    private HashSet<StockPurch> selectedItems = new HashSet<StockPurch>();
+    private HashSet<StockPurch> stockPurch = new HashSet<StockPurch>();
+
+
+
+    //display
+    private HashSet<StockPurch> GetStock()
+    {
+
+        objStock = objStockPurchesService.GetStock(); //after delete display
+        return stockPurch;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objStock = await Task.Run(() => objStockPurchesService.GetStock());
+
+    }
+
+
+    //search
+    private bool FilterFunc(StockPurch element)
+    {
+        @*if (string.IsNullOrWhiteSpace(searchString))
+            return true;*@
+        @* if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        if ($"{element.ItemName}".Contains(searchString))
+            return true;
+
+        return false;
+    }
+
+    //delete
+    protected void Delete(long PurchesItemId)
+    {
+        objStockPurchesService.Delete(PurchesItemId);
+        GetStock();
+
+    }
+    //multiDelete
+    protected void DeleteMulti(long[] num)
+    {
+        foreach (long x in num)
+        {
+            objStockPurchesService.Delete(x);
+        }
+        GetStock();
+    }
+
+
+
+    //----------------------------------------Excel export----------------------------------//
+
+}
+

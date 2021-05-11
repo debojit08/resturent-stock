@@ -1,0 +1,138 @@
+﻿@page "/addStocks"
+@using Resturent.Models
+@inject SupplierService objSupplierService
+@inject StockPurchesService objStockPurchesService
+@inject NavigationManager NavigationManager
+<h3>Add Stocks</h3>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.SupplierId" Label="Supplier Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+
+    @*<div class="form-row">
+        <div class="form-group col-md-6">
+            <MudSelect T="long?" @bind-Value="objStock.SupplierId" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                @foreach (var jj in objSupplier)
+                {
+                    <MudSelectItem T="long?" Value="@jj.SupplierId">@jj.SupplierName</MudSelectItem>}
+
+
+            </MudSelect>
+        </div>
+    </div>
+*@
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.ItemName" Label="Item Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Qty" Label="Qty" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Amount" Label="Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Cgst" Label="CGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Sgst" Label="SGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.TotalAmount" Label="Total Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Payment Status</label>
+            <label class="switch">
+                <input type="checkbox" @bind="PaymentType">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateStocks" value="save" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+
+  @*  List<Supplier> objSupplier;
+    private HashSet<Supplier> supplier = new HashSet<Supplier>();
+
+    private HashSet<Supplier> GetSupplier()
+    {
+        objSupplier = objSupplierService.GetSupplier();
+        return supplier;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        objSupplier = await Task.Run(() => objSupplierService.GetSupplier());
+    }*@
+
+
+
+
+
+
+    StockPurch objStock = new StockPurch();
+
+    private bool hover = true;
+    private DateTime eDate;
+    public bool PaymentType;
+
+
+    protected override void OnInitialized()
+    {
+        eDate = DateTime.Now;
+    }
+
+    void CreateStocks()
+    {
+        objStock.EDate = eDate;
+        objStock.MDate = null;
+        objStock.PaymentType = PaymentType ? true : false;
+        // objVariation.IsAdmin = isAdmin ? true : false;
+        //objSupplier.Status = status ? true : false;
+        objStockPurchesService.Create(objStock);
+        NavigationManager.NavigateTo("stockPurches");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("stockPurches");
+    }
+
+
+}

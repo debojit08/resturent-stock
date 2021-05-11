@@ -1,0 +1,185 @@
+﻿@page "/supplier"
+@using Resturent.Models;
+@inject IJSRuntime jsruntime
+@inject SupplierService objSupplierService
+@inject NavigationManager NavigationManager
+@if (objSupplier == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <MudTable Items="@objSupplier" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Supplier, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Add Supplier</MudText>
+            <a href="/addSupplier">
+                <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
+            </a>
+            <MudToolBarSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+
+
+
+
+        </ToolBarContent>
+        <HeaderContent>
+
+
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.SupplierName)"><strong>Supplier Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.Address)"><strong>Address</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.MobileNo)"><strong>Mobile No</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.Email)"><strong>Email</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.IsActive)"><strong>Is Active</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Supplier, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><strong>Actions</strong></MudTh>
+
+
+
+
+        </HeaderContent>
+
+        <RowTemplate>
+
+
+            <MudTd DataLabel="Supplier Name">@context.SupplierName</MudTd>
+            <MudTd DataLabel="Address">@context.Address</MudTd>
+            <MudTd DataLabel="Mobile No">@context.MobileNo</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd DataLabel="Is Active">@(context.IsActive == true ? "Yes" : "No")</MudTd>
+            <MudTd DataLabel="Entry Date">@context.EDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Modify Date">@context.MDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Action">
+
+
+
+
+                <a href="/editSupplier/@context.SupplierId">
+                    <MudFab Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+                </a>
+
+                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.SupplierId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+
+
+
+            </MudTd>
+
+        </RowTemplate>
+
+
+
+
+        <PagerContent>
+            <MudTablePager />
+
+        </PagerContent>
+
+
+    </MudTable>
+
+    <MudToolBar>
+        <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+        <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+        <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+        <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+        <MudToolBarSpacer />
+        <div style="min-width:200px;">
+
+
+
+            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.SupplierName).Select(x => x.SupplierName)))</MudText>
+
+        </div>
+
+
+
+    </MudToolBar>
+
+    @*<MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Primary" Size="Size.Small">Save to excel</MudButton>*@
+
+
+
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.SupplierId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+
+
+
+
+
+
+
+}
+
+
+@code {
+
+
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<Supplier> objSupplier;
+
+    private HashSet<Supplier> selectedItems = new HashSet<Supplier>();
+    private HashSet<Supplier> supplier = new HashSet<Supplier>();
+
+
+
+    //display
+    private HashSet<Supplier> GetSupplier()
+    {
+
+        objSupplier = objSupplierService.GetSupplier(); //after delete display
+        return supplier;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objSupplier = await Task.Run(() => objSupplierService.GetSupplier());
+
+    }
+
+
+    //search
+    private bool FilterFunc(Supplier element)
+    {
+        @*if (string.IsNullOrWhiteSpace(searchString))
+            return true;*@
+        @* if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        if ($"{element.SupplierName}".Contains(searchString))
+            return true;
+
+        return false;
+    }
+
+    //delete
+    protected void Delete(long SupplierId)
+    {
+        objSupplierService.Delete(SupplierId);
+        GetSupplier();
+
+    }
+    //multiDelete
+    protected void DeleteMulti(long[] num)
+    {
+        foreach (long x in num)
+        {
+            objSupplierService.Delete(x);
+        }
+        GetSupplier();
+    }
+
+
+
+    //----------------------------------------Excel export----------------------------------//
+
+}

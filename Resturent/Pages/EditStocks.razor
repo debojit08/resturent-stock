@@ -1,0 +1,98 @@
+﻿@page "/editStocks/{CurrentId}"
+@using Resturent.Models
+@inject SupplierService objSupplierService
+@inject StockPurchesService objStockPurchesService
+@inject NavigationManager NavigationManager
+<h3>Add Supplier</h3>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.SupplierId" Label="Supplier Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+       
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.ItemName" Label="Item Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Qty" Label="Qty" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Amount" Label="Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Sgst" Label="SGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.Cgst" Label="CGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objStock.TotalAmount" Label="Total Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+
+    </div>
+    <div class="form-row">
+
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objStock.PaymentType" />
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateStocks" value="Update" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+    [Parameter]
+    public string CurrentId { get; set; }
+
+    StockPurch objStock = new StockPurch();
+
+
+
+    private DateTime mDate;
+    protected override void OnInitialized()
+    {
+        mDate = DateTime.Now;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objStock = await Task.Run(() => objStockPurchesService.GetStockById(Convert.ToInt32(CurrentId)));
+    }
+
+    void UpdateStocks()
+    {
+
+
+        objStock.MDate = mDate;
+        objStockPurchesService.Update(objStock);
+        NavigationManager.NavigateTo("stockPurches");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("stockPurches");
+    }
+
+
+
+}

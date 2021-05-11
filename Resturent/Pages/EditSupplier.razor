@@ -1,0 +1,80 @@
+﻿@page "/editSupplier/{CurrentId}"
+@using Resturent.Models
+@inject SupplierService objSupplierService
+@inject NavigationManager NavigationManager
+<h3>Add Supplier</h3>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objSupplier.SupplierName" Label="Supplier Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objSupplier.Address" Label="Address" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objSupplier.MobileNo" Label="Mobile No" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objSupplier.Email" Label="Email" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+
+
+    </div>
+    <div class="form-row">
+
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objSupplier.IsActive">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateSupplier" value="Update" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+    [Parameter]
+    public string CurrentId { get; set; }
+
+    Supplier objSupplier = new Supplier();
+
+    private DateTime mDate;
+    protected override void OnInitialized()
+    {
+        mDate = DateTime.Now;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objSupplier = await Task.Run(() => objSupplierService.GetSupplierById(Convert.ToInt32(CurrentId)));
+    }
+
+    void UpdateSupplier()
+    {
+
+       
+        objSupplier.MDate = mDate;
+        objSupplierService.Update(objSupplier);
+        NavigationManager.NavigateTo("supplier");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("supplier");
+    }
+
+
+
+}
