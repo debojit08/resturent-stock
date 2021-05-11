@@ -18,7 +18,13 @@
             <MudTextField @bind-Value="objStock.Qty" Label="Qty" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
         <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            @*<MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>*@
+            <MudSelect T="String" @bind-Value="objStock.Unit" Label="Unit" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control" Format="F2">
+                <MudSelectItem Value="@("Kg")" />
+                <MudSelectItem Value="@("Gr")" />
+                <MudSelectItem Value="@("Lt")" />
+
+            </MudSelect>
         </div>
         <div class="form-group col-md-6">
             <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>

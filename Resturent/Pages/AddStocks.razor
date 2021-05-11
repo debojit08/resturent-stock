@@ -12,17 +12,17 @@
     </div>
 
     @*<div class="form-row">
-        <div class="form-group col-md-6">
-            <MudSelect T="long?" @bind-Value="objStock.SupplierId" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
-                @foreach (var jj in objSupplier)
-                {
-                    <MudSelectItem T="long?" Value="@jj.SupplierId">@jj.SupplierName</MudSelectItem>}
+            <div class="form-group col-md-6">
+                <MudSelect T="long?" @bind-Value="objStock.SupplierId" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                    @foreach (var jj in objSupplier)
+                    {
+                        <MudSelectItem T="long?" Value="@jj.SupplierId">@jj.SupplierName</MudSelectItem>}
 
 
-            </MudSelect>
+                </MudSelect>
+            </div>
         </div>
-    </div>
-*@
+    *@
 
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -34,56 +34,65 @@
             <MudTextField @bind-Value="objStock.Qty" Label="Qty" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
     </div>
-    <div class="form-row">
+    @*<div class="form-row">
         <div class="form-group col-md-6">
             <MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.Amount" Label="Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.Cgst" Label="CGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.Sgst" Label="SGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.TotalAmount" Label="Total Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-        </div>
-    </div>
-    <div class="form-row">
+    </div>*@
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <MudSelect T="String" @bind-Value="objStock.Unit" Label="Unit" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control" Format="F2">
+            <MudSelectItem Value="@("Kg")" />
+            <MudSelectItem Value="@("Gr")" />
+            <MudSelectItem Value="@("Lt")" />
 
-        <div class="form-group col-md-2">
-            <label for="inputPassword4">Payment Status</label>
-            <label class="switch">
-                <input type="checkbox" @bind="PaymentType">
-                <span class="slider round"></span>
-            </label>
-        </div>
-
+        </MudSelect>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@CreateStocks" value="save" />
-                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
-
+</div><div class="form-row">
+            <div class="form-group col-md-6">
+                <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
             </div>
         </div>
-    </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <MudTextField @bind-Value="objStock.Amount" Label="Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <MudTextField @bind-Value="objStock.Cgst" Label="CGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <MudTextField @bind-Value="objStock.Sgst" Label="SGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <MudTextField @bind-Value="objStock.TotalAmount" Label="Total Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            </div>
+        </div>
+        <div class="form-row">
+
+            <div class="form-group col-md-2">
+                <label for="inputPassword4">Payment Status</label>
+                <label class="switch">
+                    <input type="checkbox" @bind="PaymentType">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" @onclick="@CreateStocks" value="save" />
+                    <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+                </div>
+            </div>
+        </div>
 </form>
 
 

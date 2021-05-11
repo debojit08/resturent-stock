@@ -12,7 +12,7 @@ namespace Resturent.Models
         public string ItemName { get; set; }
         public long? Qty { get; set; }
         public string Unit { get; set; }
-        public string PricePerUnit { get; set; }
+        public long? PricePerUnit { get; set; }
         public long? Amount { get; set; }
         public long? Cgst { get; set; }
         public long? Sgst { get; set; }
