@@ -7,7 +7,7 @@
 <form>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.SupplierId" Label="Supplier Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            <MudTextField @bind-Value="objStock.SupplierId" Label="Supplier" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
     </div>
 
@@ -23,53 +23,60 @@
             </div>
         </div>
     *@
-
+<fieldset>
+    <legend>Add items:</legend>
     <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
             <MudTextField @bind-Value="objStock.ItemName" Label="Item Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
+
+        <div class="form-group col-md-2">
             <MudTextField @bind-Value="objStock.Qty" Label="Qty" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
-    </div>
-    @*<div class="form-row">
-        <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-        </div>
-    </div>*@
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <MudSelect T="String" @bind-Value="objStock.Unit" Label="Unit" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control" Format="F2">
-            <MudSelectItem Value="@("Kg")" />
-            <MudSelectItem Value="@("Gr")" />
-            <MudSelectItem Value="@("Lt")" />
 
-        </MudSelect>
+        @*<div class="form-row">
+            <div class="form-group col-md-6">
+                <MudTextField @bind-Value="objStock.Unit" Label="Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            </div>
+        </div>*@
+
+        <div class="form-group col-md-2">
+            <MudSelect T="String" @bind-Value="objStock.Unit" Label="Unit" Strict="true" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control" Format="F2">
+                <MudSelectItem Value="@("Kg")" />
+                <MudSelectItem Value="@("Gr")" />
+                <MudSelectItem Value="@("Lt")" />
+
+            </MudSelect>
+        </div>
+
+        <div class="form-group col-md-2">
+            <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+
+        <div class="form-group col-md-2">
+            <MudTextField @bind-Value="objStock.Amount" Label="Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+        <div class="form-group col-md-2">
+            <MudButton Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Add" Size="Size.Medium" Color="Color.Secondary" Class="ma-2">Add More</MudButton>
+
+        </div>
+
     </div>
-</div><div class="form-row">
-            <div class="form-group col-md-6">
-                <MudTextField @bind-Value="objStock.PricePerUnit" Label="Price Per Unit" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-            </div>
-        </div>
+
+</fieldset>
         <div class="form-row">
-            <div class="form-group col-md-6">
-                <MudTextField @bind-Value="objStock.Amount" Label="Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
                 <MudTextField @bind-Value="objStock.Cgst" Label="CGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        
+        
+            <div class="form-group col-md-3">
                 <MudTextField @bind-Value="objStock.Sgst" Label="SGST" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        
+            <div class="form-group col-md-3">
                 <MudTextField @bind-Value="objStock.TotalAmount" Label="Total Amount" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
             </div>
         </div>

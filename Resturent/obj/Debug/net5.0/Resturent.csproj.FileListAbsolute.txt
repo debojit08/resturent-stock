@@ -369,7 +369,6 @@ C:\Users\Debojit Paul\OneDrive\Desktop\internship\Resturent\obj\Debug\net5.0\Raz
 C:\Users\Debojit Paul\OneDrive\Desktop\internship\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\EditSupplier.razor.g.cs
 C:\Users\Debojit Paul\OneDrive\Desktop\internship\Resturent\obj\Debug\net5.0\Razor\Pages\EditStocks.razor.g.cs
 C:\Users\Debojit Paul\OneDrive\Desktop\internship\Resturent\obj\Debug\net5.0\Razor\Pages\EditSupplier.razor.g.cs
-C:\Users\Debojit Paul\OneDrive\Desktop\Stock-resturent\Resturent\obj\Debug\net5.0\Resturent.csprojAssemblyReference.cache
 C:\Users\Debojit Paul\OneDrive\Desktop\Stock-resturent\Resturent\obj\Debug\net5.0\Resturent.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Debojit Paul\OneDrive\Desktop\Stock-resturent\Resturent\obj\Debug\net5.0\Resturent.AssemblyInfoInputs.cache
 C:\Users\Debojit Paul\OneDrive\Desktop\Stock-resturent\Resturent\obj\Debug\net5.0\Resturent.AssemblyInfo.cs

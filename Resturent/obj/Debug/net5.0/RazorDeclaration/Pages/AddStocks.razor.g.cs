@@ -105,7 +105,7 @@ using Resturent.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 112 "C:\Users\Debojit Paul\OneDrive\Desktop\Stock-resturent\Resturent\Pages\AddStocks.razor"
+#line 119 "C:\Users\Debojit Paul\OneDrive\Desktop\Stock-resturent\Resturent\Pages\AddStocks.razor"
        
 
 
